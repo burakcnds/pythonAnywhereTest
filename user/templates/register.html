@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>Regisrer</title>
+{% endblock title %}
+    
+    
+
+{% block content %}
+<h1> Kayıt Ol </h1>
+
+<form method="POST" novalidate > 
+    {% csrf_token %}
+    {% for field in form %}
+    {% if field.errors %}
+    <div class="alert alert-danger w-50">
+        {{field.errors}}
+    </div>
+    {% endif %}
+    <div>
+        {{field.help_text}}
+    </div>
+    <label for="field.id_for_label"> {{field.label}} </label>
+    {{field}}
+    {% endfor %}
+    <input class="btn btn-dark mt-2" type="submit" value="Kaydet">
+
+    </form>
+
+
+
+{% endblock content %}

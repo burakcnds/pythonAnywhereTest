@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}
+<title>Comment App</title>
+{% endblock title %}
+
+
+{% block content %}
+<h1 class="text-center"> Comment App </h1>
+
+<div class="container">
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+                <label > {{form.full_name.label}} </label>
+                {{form.full_name}}
+            </div>
+            <div class="col-6">
+                <label > {{form.email.label}} </label>
+                {{form.email}} 
+            </div>
+            <div class="col-12">
+                {{form.text}}
+                {{form.media}}
+            </div>
+            <div class="col-3 mt-2">
+                <input class="btn btn-outline-dark w-50" type="submit" value="Gönder">
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+{% comment %} 
+{{form}}
+{{form.media}} {% endcomment %}
+   
+ 
+<div class="container">
+    <div class="row">
+        {% for y in yorum %}
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3 class="card-title">{{ y.full_name }}</h3>
+                    <p class="card-text"><strong>Email:</strong> {{ y.email }}</p>
+                    <p class="card-text">{{ y.text|safe }}</p>
+                   <div class="d-flex justify-content-between">
+                    <p class="card-text"><small class="text-muted">Tarih: {{ y.date }}</small></p>
+                    {% if y.user == request.user  %}
+
+                    <form action="{% url "sil" %}"  method="POST">
+                        {% csrf_token %}
+                        <input type="text" name="sil" value="{{y.id}}" hidden >
+                        <button type="submit" class="btn btn-danger"> Sil </button>
+                    </form>
+                    
+                    {% endif %}
+                   </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+   
+ 
+     
+     
+     
+     
+  
+    
+{% endblock content %}
